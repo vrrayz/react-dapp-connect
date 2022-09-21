@@ -11,6 +11,7 @@ import { walletOptions } from "./data/walletOptions";
 
 function App() {
   const [isConnected, setIsConnected] = useState(false);
+  const [isModalToggled, setIsModalToggled] = useState(false);
   const [userAddress, setUserAddress] = useState("");
   const [provider, setProvider] = useState(
     new ethers.providers.Web3Provider(window.ethereum)
@@ -28,23 +29,28 @@ function App() {
   return (
     <>
       <Nav>
-        <button className="btn nav-btn" onClick={connectDapp}>
+        <button
+          className="btn nav-btn"
+          onClick={() => setIsModalToggled(!isModalToggled)}
+        >
           {isConnected ? `${userAddress.substring(0, 5)}...` : "Connect Dapp"}
         </button>
       </Nav>
-      <WalletModal>
-        {walletOptions.map((wallet) => {
-          const { id, name, img } = wallet;
-          return (
-            <div className="col-6 mb-3" key={id}>
-              <button className="wallet-option-btn">
-                <img src={img} className="wallet-logo" alt={name} />
-                <span className="wallet-name">{name}</span>
-              </button>
-            </div>
-          );
-        })}
-      </WalletModal>
+      {isModalToggled && (
+        <WalletModal>
+          {walletOptions.map((wallet) => {
+            const { id, name, img } = wallet;
+            return (
+              <div className="col-6 mb-3" key={id}>
+                <button className="wallet-option-btn" onClick={() => connectDapp()}>
+                  <img src={img} className="wallet-logo" alt={name} />
+                  <span className="wallet-name">{name}</span>
+                </button>
+              </div>
+            );
+          })}
+        </WalletModal>
+      )}
       {/* <div>
         {isConnected ? <b>{userAddress}</b>:<button onClick={connectDapp}>Connect Dapp</button>}
       </div> */}
