@@ -1,12 +1,15 @@
 import React from "react";
 
-const WalletModal = ({children}) => {
+const WalletModal = ({isModalToggled,setIsModalToggled,children}) => {
+    const modalToggle = () => {
+        setIsModalToggled(!isModalToggled)
+    }
   return (
     <div className="modal-overlay">
       <div className="modal-box">
         <div className="modal-title">
           <h3>Connect Wallet</h3>
-          <button className="modal-close">
+          <button className="modal-close" onClick={modalToggle}>
             <svg
               viewBox="0 0 24 24"
               color="primary"

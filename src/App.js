@@ -37,7 +37,7 @@ function App() {
         </button>
       </Nav>
       {isModalToggled && (
-        <WalletModal>
+        <WalletModal setIsModalToggled={setIsModalToggled} isModalToggled={isModalToggled}>
           {walletOptions.map((wallet) => {
             const { id, name, img } = wallet;
             return (
