@@ -1,4 +1,8 @@
 import React, { useState } from "react";
+
+import Nav from "./components/Nav";
+import WalletModal from "./components/WalletModal";
+
 import { ethers } from "ethers";
 import WalletConnectProvider from "@walletconnect/web3-provider";
 
@@ -20,14 +24,13 @@ function App() {
   }
   return (
     <>
-      <nav className="custom-nav">
-        <a href="/h" className="nav-brand">Dapp-Connect</a>
-        <button className="btn nav-btn">Connect Wallet</button>
-      </nav>
-
-      <div>
+      <Nav>
+      <button className="btn nav-btn" onClick={connectDapp}>{isConnected ? `${userAddress.substring(0,5)}...`:'Connect Dapp'}</button>
+      </Nav>
+      <WalletModal></WalletModal>
+      {/* <div>
         {isConnected ? <b>{userAddress}</b>:<button onClick={connectDapp}>Connect Dapp</button>}
-      </div>
+      </div> */}
     </>
   );
 }
