@@ -6,7 +6,7 @@ import WalletModal from "./components/WalletModal";
 import { ethers } from "ethers";
 import WalletConnectProvider from "@walletconnect/web3-provider";
 
-import { walletConnectRpc } from "./rpc";
+import { walletConnectRpc } from "./data/rpc";
 
 function App() {
   const [isConnected, setIsConnected] = useState(false);
