@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import Nav from "./components/Nav";
 import WalletModal from "./components/WalletModal";
@@ -13,47 +13,70 @@ function App() {
   const [isConnected, setIsConnected] = useState(false);
   const [isModalToggled, setIsModalToggled] = useState(false);
   const [userAddress, setUserAddress] = useState("");
-  const [provider, setProvider] = useState(
-    new ethers.providers.Web3Provider(window.ethereum)
-  );
+  const [provider, setProvider] = useState("");
+  const [signer, setSigner] = useState("");
+  const [wallet, setWallet] = useState("");
 
-  const connectDapp = async () => {
+  const connectDapp = async (optionSelected) => {
     const wcProvider = new WalletConnectProvider(walletConnectRpc);
-    await wcProvider.enable();
-    // await provider.send("eth_requestAccounts", []);
-    setProvider(new ethers.providers.Web3Provider(wcProvider));
-    const signer = provider.getSigner();
-    signer.getAddress().then((res) => setUserAddress(res));
-    setIsConnected(true);
+    if (optionSelected === "WalletConnect") {
+      await wcProvider
+        .enable()
+        .then(() => {
+          setWallet(optionSelected);
+          setProvider(new ethers.providers.Web3Provider(wcProvider));
+        })
+        .catch((err) => {
+          throw new Error("Error Connecting to wallet");
+        });
+    } else {
+      console.log("clicked")
+      setWallet(optionSelected);
+      setProvider(new ethers.providers.Web3Provider(window.ethereum));
+    }
   };
+  const walletRequest = async () => {
+    if (provider !== "" && wallet !== "") {
+      if (wallet === "Metamask") {
+        try {
+          await provider
+          .send("eth_requestAccounts", []).then(() => setSigner(provider.getSigner()))
+        } catch (error) {
+          setWallet("")
+        }
+      }else{
+        setSigner(provider.getSigner())
+      }
+    }
+  };
+  useEffect(() => {
+    walletRequest();
+  }, [provider, wallet]);
+  useEffect(() => {
+    if (signer !== "") {
+      signer.getAddress().then((res) => {
+        setUserAddress(res);
+        setIsModalToggled(!isModalToggled);
+        setIsConnected(true);
+      });
+    }
+  }, [signer]);
   return (
     <>
-      <Nav>
-        <button
-          className="btn nav-btn"
-          onClick={() => setIsModalToggled(!isModalToggled)}
-        >
-          {isConnected ? `${userAddress.substring(0, 5)}...` : "Connect Dapp"}
-        </button>
-      </Nav>
+      <Nav
+        setIsModalToggled={setIsModalToggled}
+        isModalToggled={isModalToggled}
+        isConnected={isConnected}
+        userAddress={userAddress}
+      />
       {isModalToggled && (
-        <WalletModal setIsModalToggled={setIsModalToggled} isModalToggled={isModalToggled}>
-          {walletOptions.map((wallet) => {
-            const { id, name, img } = wallet;
-            return (
-              <div className="col-6 mb-3" key={id}>
-                <button className="wallet-option-btn" onClick={() => connectDapp()}>
-                  <img src={img} className="wallet-logo" alt={name} />
-                  <span className="wallet-name">{name}</span>
-                </button>
-              </div>
-            );
-          })}
-        </WalletModal>
+        <WalletModal
+          setIsModalToggled={setIsModalToggled}
+          isModalToggled={isModalToggled}
+          walletOptions={walletOptions}
+          connectDapp={connectDapp}
+        />
       )}
-      {/* <div>
-        {isConnected ? <b>{userAddress}</b>:<button onClick={connectDapp}>Connect Dapp</button>}
-      </div> */}
     </>
   );
 }

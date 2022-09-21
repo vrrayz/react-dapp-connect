@@ -1,6 +1,6 @@
 import React from "react";
 
-const WalletModal = ({isModalToggled,setIsModalToggled,children}) => {
+const WalletModal = ({isModalToggled,setIsModalToggled,walletOptions,connectDapp}) => {
     const modalToggle = () => {
         setIsModalToggled(!isModalToggled)
     }
@@ -25,7 +25,17 @@ const WalletModal = ({isModalToggled,setIsModalToggled,children}) => {
         </div>
         <div className="modal-body">
           <div className="h-100 d-flex contents-center flex-column">
-            <div className="row">{children}</div>
+            <div className="row">{walletOptions.map((wallet) => {
+            const { id, name, img } = wallet;
+            return (
+              <div className="col-6 mb-3" key={id}>
+                <button className="wallet-option-btn" onClick={() => connectDapp(name)}>
+                  <img src={img} className="wallet-logo" alt={name} />
+                  <span className="wallet-name">{name}</span>
+                </button>
+              </div>
+            );
+          })}</div>
           </div>
         </div>
       </div>
