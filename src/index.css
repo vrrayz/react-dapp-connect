@@ -1,8 +1,8 @@
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap');
 body {
+  background-color: #f1f1f1;
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+  font-family: 'Orbitron', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -10,4 +10,29 @@ body {
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+.custom-nav{
+  background-color: #000d2f;
+  padding: 0px 16px;
+  display: flex;
+  justify-content: space-between;
+}
+.custom-nav .nav-brand{
+  text-decoration: none;
+  margin: 0px 8px;
+  padding: 16px 0px;
+  font-weight: 700;
+  color: #07b7da;
+}
+.custom-nav .nav-btn{
+  margin: auto 0px;
+}
+.btn{
+  padding: 6px 14px;
+  font-family: 'Orbitron', sans-serif;
+  font-weight: 600;
+  border-radius: 8px;
+  outline: none;
+  border:none;
+  background-color: #07b7da;
 }
