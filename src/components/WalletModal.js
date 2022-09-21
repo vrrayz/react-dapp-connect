@@ -1,6 +1,6 @@
 import React from "react";
 
-const WalletModal = () => {
+const WalletModal = ({children}) => {
   return (
     <div className="modal-overlay">
       <div className="modal-box">
@@ -12,7 +12,6 @@ const WalletModal = () => {
               color="primary"
               width="20px"
               xmlns="http://www.w3.org/2000/svg"
-              class="sc-8a800401-0 wNVai"
             >
               <path
                 fill="currentColor"
@@ -22,22 +21,9 @@ const WalletModal = () => {
           </button>
         </div>
         <div className="modal-body">
-            <div className="h-100 d-flex contents-center flex-column">
-            <div className="row">
-                <div className="col-6 mb-3">
-                    <button className="wallet-option-btn">
-                    <img src="/img/logos/metamask.svg" className="wallet-logo" alt="metamask" />
-                    <span className="wallet-name">Metamask</span>
-                    </button>
-                </div>
-                <div className="col-6 mb-3">
-                    <button className="wallet-option-btn">
-                    <img src="/img/logos/metamask.svg" className="wallet-logo" alt="metamask" />
-                    <span className="wallet-name">Metamask</span>
-                    </button>
-                </div>
-            </div>
-            </div>
+          <div className="h-100 d-flex contents-center flex-column">
+            <div className="row">{children}</div>
+          </div>
         </div>
       </div>
     </div>
